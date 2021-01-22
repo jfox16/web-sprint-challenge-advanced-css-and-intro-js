@@ -7,7 +7,7 @@ export const artists = [
       "nationality": "Italian",
       "bio": "Amedeo Clemente Modigliani (Italian pronunciation: [ameˈdɛːo modiʎˈʎaːni]; 12 July 1884 – 24 January 1920) was an Italian Jewish painter and sculptor who worked mainly in France. He is known for portraits and nudes in a modern style characterized by elongation of faces, necks, and figures that were not received well during his lifetime but later found acceptance. Modigliani spent his youth in Italy, where he studied the art of antiquity and the Renaissance. In 1906 he moved to Paris, where he came into contact with such artists as Pablo Picasso and Constantin Brâncuși. By 1912 Modigliani was exhibiting highly stylized sculptures with Cubists of the Section d'Or group at the Salon d'Automne.",
       "wikipedia": "http://en.wikipedia.org/wiki/Amedeo_Modigliani",
-      "paintings": 193
+      "paintings": 193,
     },
     {
       "id": 1,
@@ -208,15 +208,19 @@ Practice accessing data above by console.log-ing following items:
 (no functions needed) */
 
 //(1) Name of the first artist (0th index) in the array
+console.log(artists[0].name);
 
 
 //(2) Bio of the third artist (2nd index) in the array 
+console.log(artists[2].name);
 
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 (no function needed) 
 There is a typo in your dataset 😱 The 9th artist, Vincent Van Gogh is currently Vincent Van Dough. Use an array method to fix this issue and console.log() to check your work. */
+artists[8].name = 'Vincent van Gogh';
+// console.log(artists);
 
 
 
@@ -228,8 +232,8 @@ There is a typo in your dataset 😱 The 9th artist, Vincent Van Gogh is current
  
  Example, if getArtistByIndex is invoked with the artists array and the number 0, it will return `the artist at index 0 is Amedeo Modigliani` */
 
-function getArtistByIndex(/*Your Code Here*/) {
-  /*Your Code Here*/
+function getArtistByIndex(array, index) {
+  return `the artist at index ${index} is ${array[index].name}`;
 }  
 
 
@@ -242,8 +246,18 @@ Use get20s to do the following:
 Example born in 1901 and died in 1959 - included -- born in 1889 and died in 1925 not included
 If correct, the function should return ["Salvador Dali", "Frida Kahlo"]*/
 
-function get20s(/*Your Code Here*/){
-  /*Your Code Here*/
+function get20s(array){
+
+  const matches = [];
+
+  for (let i = 0; i < array.length; i++) {
+    const [ born, died ] = array[i].years.split(' - ');
+    if (Number(born) >= 1900 && Number(died) < 2000) {
+      matches.push(array[i].name);
+    }
+  }
+
+  return matches;
 }
 
 
@@ -257,8 +271,9 @@ function get20s(/*Your Code Here*/){
  
  For example, if removeArtist is invoked with the artists array and the number 0, it will remove Amedeo Modigliani from our dataset and return the number 19. */
 
-function removeArtist(/*Your Code Here*/){
-   /*Your Code Here*/
+function removeArtist(array, index){
+  array.splice(index, 1);
+  return array.length;
 }
    
 
@@ -278,9 +293,17 @@ Use addArtist to do the following:
 
 Example: addArtist(artists) should return the artists array with the above object added to the end of the array. */
 
-function addArtist(/*Your Code Here*/){
-    /*Your Code Here*/
-  }
+function addArtist(array){
+  array.push({ 
+    id: 20,
+    name: 'Jonathan Fox', 
+    years: '1994 - 2021',
+    genre: 'Web Design', 
+    nationality: 'San Franciscan',
+    bio: 'This is the bio of Jonathan Fox, the first person to invent writing a resume in React. No one ever understood why he would do this, but experts theorize that he was passionate about spending way too much time on meaningless tasks.'
+  });
+  return array;
+}
 
   
 
@@ -291,8 +314,14 @@ Use lotsOfArt to do the following:
 
 For example lotsOfArt(artists); will return ["Amedeo Modigliani", "Rene Magritte", ... "Albrecht Dürer"]*/
 
-function lotsOfArt(/*Your Code Here*/){
-  /*Your Code Here*/
+function lotsOfArt(array){
+  const matches = [];
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].paintings && array[i].paintings > 100) {
+      matches.push(array[i].name);
+    }
+  }
+  return matches;
 }
 
 
@@ -320,21 +349,37 @@ The function should console.log 50 chunks of HTML code that match the structure 
 
 ‼️ You do **NOT** need to get these to display on your page, but you can copy and paste the result into your HTML file if you'd like to see what that would look like. */
 
-function getHTML(/* Code here */){
+function getHTML(data){
+  let htmlString = '';
 
-    /* Code here */
-
+  for (let i = 0; i < data.length; i++) {
+    const artist = data[i];
+    const img = artist.name.replace(' ', '-');
+    htmlString += '\n<div class="artist">'
+    htmlString += `\n  <img src="assets/${img}.jpg"/>`
+    if (artist.name) {
+      if (artist.wikipedia) htmlString += `\n  <a href="${artist.wikipedia}"> ${artist.name} </a>`
+      else htmlString += `\n  <a> ${artist.name} </a>`
+    }
+    if (artist.bio) htmlString += `\n  <div class="bio"> ${artist.bio} </div>`;
+    htmlString += '\n</div>';
   }
+  return htmlString;
+}
+
+// console.log(getHTML(artists));
 
 
 /* 💪💪💪💪💪💪 STRETCH 2: 💪💪💪💪💪💪
 Create a function called `randomize` that takes a data array as an argument and returns a the same array in a randomized order. */
 
-function randomize(/* Code here */){
-
-    /* Code here */
-
+function randomize(array){
+  const original = [...array];
+  const randomized = [];
+  while (array.length > 0) {
   }
+  return randomized;
+}
 
 
  /* 💪💪💪💪💪💪 STRETCH 3: 💪💪💪💪💪💪
