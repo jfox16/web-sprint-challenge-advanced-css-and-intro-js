@@ -376,7 +376,10 @@ Create a function called `randomize` that takes a data array as an argument and 
 function randomize(array){
   const original = [...array];
   const randomized = [];
-  while (array.length > 0) {
+  while (original.length > 0) {
+    const randIndex = Math.floor(Math.random() * original.length);
+    const element = original.splice(randIndex, 1);
+    randomized.push(element);
   }
   return randomized;
 }
